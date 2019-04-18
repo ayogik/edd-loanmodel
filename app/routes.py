@@ -30,14 +30,33 @@ def college_score(institution):
             else:
                 scaled = (factors[i] - ranges[i]['min'])/(ranges[i]['max'] - ranges[i]['min'])
                 total += scaled
-        print (scaled, file=sys.stderr)
     total += 0.5-0.5*(factors[4] - ranges[4]['min'])/(ranges[4]['max'] - ranges[4]['min'])
 
     return total
 
 def personal_score(collegeScore, career, income, race, gender):
     personalIncome = pd.Series.item(occupation[occupation['OCC_TITLE'] == career]['A_MEAN'].iloc[[0]])
-    return personalIncome
+    variations = {'White':{'Male':1.11945,'Female':0.922821},
+                    'African American':{'Male':0.838333,'Female':0.756954},
+                    'Asian':{'Male':1.428603,'Female':1.102105},
+                    'Hispanic':{'Male':0.796935,'Female':0.704974},
+                    'Other':{'Male':1,'Female':0.8}}
+    realIncome = personalIncome * variations[race][gender]
+    income = int(income)
+
+    total = 0
+    if realIncome < 250000:
+        total += 3*(1-realIncome/250000)
+        print (total, file=sys.stderr)
+    else:
+        total += 0
+    print (income, file=sys.stderr)
+    if income < 250000:
+        total += 3*(1-realIncome/250000)
+    else:
+        total += 0
+    total += collegeScore
+    return total
 
 @app.route('/')
 @app.route('/index')
@@ -69,7 +88,5 @@ def calc():
     if form.validate_on_submit():
         output = college_score(institution)
         pScore = personal_score(output, career, income, race, gender)
-        flash('Your School\'s Score: {}'.format(output),
-                'Your Personal Score: {}'.format(pScore))
-        print(output, file=sys.stderr)
+        flash('Your Institutional, Personal Score: {}, {}'.format(output, pScore))
     return render_template('calc.html', form=form)

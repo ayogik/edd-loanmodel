@@ -43,8 +43,7 @@
     </nav>
 
     <main role="main" class="container">
-      <br>
-      <h1>Student Loan Debt Calculator</h1>
+      <h1>Student Debt Calculator</h1>
       <br>
       <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
@@ -119,9 +118,9 @@
         <button type="submit" class="btn btn-success">Submit</button>
       </form>
 
-      <br><br>
+      <br>
       <h3>Institutional Scores</h3>
-      <p>Scores for your prospective range from 0 to virtually any positive integer, and is categorized into zones based on factors including average default rates, debt held after graduation, cost of attendance, and debt-to-earnings ratio.
+      <p>Scores for your prospective university range from 0 to virtually any positive integer, and is categorized into zones based on factors including average default rates, debt held after graduation, cost of attendance, and debt-to-earnings ratio.
       <div class="container">
         <div class="row">
           <div class="col-md-3">
@@ -137,10 +136,29 @@
       </div>
 
       <br>
+
+      <h3>Personal Scores</h3>
+      <p>Scores for your own score also range from 0 to virtually any positive integer, and is categorized into zones based on factors including your institutional score, race, gender, household income, and prospective personal income.
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3">
+            Green: 0-9
+          </div>
+          <div class="col-md-3 synopsis">
+            Yellow: 9-15
+          </div>
+          <div class="col-md-6">
+            Red: 15+
+          </div>
+        </div>
+      </div>
+
+      <br>
+
       {% with messages = get_flashed_messages() %}
       {% if messages %}
         {% for message in messages %}
-        <p> {{ message }} </p>
+        <p class="lead"> {{ message }} </p>
         {% endfor %}
       {% endif %}
       {% endwith %}
