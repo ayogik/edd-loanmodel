@@ -6,7 +6,6 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="../static/favicon.ico">
-
     <title>LoanCalc</title>
 
     <!-- Bootstrap core CSS -->
@@ -14,6 +13,7 @@
 
     <!-- Custom styles for this template -->
     <link href="../static/starter-template.css" rel="stylesheet">
+    <link type="text/css" href="../static/grid.css" rel="stylesheet">
   </head>
 
   <body>
@@ -45,6 +45,7 @@
     <main role="main" class="container">
       <br>
       <h1>Student Loan Debt Calculator</h1>
+      <br>
       <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
         <div class="form-group">
@@ -76,7 +77,6 @@
             <option>Asian</option>
             <option>Hispanic</option>
             <option>Other</option>
-
           </select>
         </div>
         <div class="form-group">
@@ -119,7 +119,38 @@
         <button type="submit" class="btn btn-success">Submit</button>
       </form>
 
+      <br><br>
+      <h3>Institutional Scores</h3>
+      <p>Scores for your prospective range from 0 to virtually any positive integer, and is categorized into zones based on factors including average default rates, debt held after graduation, cost of attendance, and debt-to-earnings ratio.
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3">
+            Green: 0-5
+          </div>
+          <div class="col-md-3 synopsis">
+            Yellow: 5-10
+          </div>
+          <div class="col-md-6">
+            Red: 10+
+          </div>
+        </div>
+      </div>
+
+      <br>
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+        <p> {{ message }} </p>
+        {% endfor %}
+      {% endif %}
+      {% endwith %}
+
+      <hr>
     </main><!-- /.container -->
+
+    <footer class="container">
+      <p>&copy; The LoanCalc Company</p>
+    </footer>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
