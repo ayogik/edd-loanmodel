@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../static/favicon.ico">
 
-    <title>Starter Template for Bootstrap</title>
+    <title>LoanCalc</title>
 
     <!-- Bootstrap core CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
@@ -43,11 +43,81 @@
     </nav>
 
     <main role="main" class="container">
+      <br>
+      <h1>Student Loan Debt Calculator</h1>
+      <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+          <label for="institution">Institution</label>
+          <input type="text" class="form-control" id="institution" name="institution" placeholder="Enter institution name">
+          {% for error in form.institution.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}
+        </div>
+        <div class="form-group">
+          <label for="career">Prospective Career</label>
+          <input type="text" class="form-control" id="career" name="career" placeholder="Likely Career Path">
+          {% for error in form.career.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}
+        </div>
+        <div class="form-group">
+          <label for="income">Household Income</label>
+          <input type="number" class="form-control" id="income" name="income" placeholder="Family Income">
+          {% for error in form.income.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}
+        </div>
+        <div class="form-group">
+          <label for="race">Race</label>
+          <select type="text" class="form-control" id="race" name="race" placeholder="Ethnicity">
+            <option>White</option>
+            <option>African American</option>
+            <option>Asian</option>
+            <option>Hispanic</option>
+            <option>Other</option>
 
-      <div class="starter-template">
-        <h1>Calculator</h1>
-        <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
-      </div>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="gender">Gender</label>
+          <select type="text" class="form-control" id="gender" name="gender" placeholder="Enter gender">
+            <option>Male</option>
+            <option>Female</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="cost">Cost of Attendance</label>
+          <input type="number" class="form-control" id="cost" name="cost" placeholder="Annual Cost">
+          {% for error in form.cost.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}
+        </div>
+        <div class="form-group">
+          <label for="expected">Estimated Family Contribution</label>
+          <input type="number" class="form-control" id="expected" name="expected" placeholder="Calculated family contribution">
+          <small class="form-text text-muted">If you have not completed your EFC calculation, visit https://bigfuture.collegeboard.org/pay-for-college/paying-your-share/expected-family-contribution-calculator.</small>
+          {% for error in form.expected.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}
+        </div>
+        <div class="form-group">
+          <label for="actual">Real Family Contribution</label>
+          <input type="number" class="form-control" id="actual" name="actual" placeholder="Calculated family contribution">
+          {% for error in form.actual.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}
+        </div>
+        <div class="form-group">
+          <label for="dependency">Dependency Status</label>
+          <select type="text" class="form-control" id="dependency" name="dependency" placeholder="Enter dependency status">
+            <option>Dependent</option>
+            <option>Independent</option>
+          </select>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-success">Submit</button>
+      </form>
 
     </main><!-- /.container -->
 
