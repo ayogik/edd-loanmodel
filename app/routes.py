@@ -34,7 +34,7 @@ def college_score(institution):
 
     return total
 
-def personal_score(collegeScore, career, income, race, gender):
+def personal_score(collegeScore, career, income, race, gender, efc):
     personalIncome = pd.Series.item(occupation[occupation['OCC_TITLE'] == career]['A_MEAN'].iloc[[0]])
     variations = {'White':{'Male':1.11945,'Female':0.922821},
                     'African American':{'Male':0.838333,'Female':0.756954},
@@ -47,16 +47,29 @@ def personal_score(collegeScore, career, income, race, gender):
     total = 0
     if realIncome < 250000:
         total += 3*(1-realIncome/250000)
-        print (total, file=sys.stderr)
     else:
         total += 0
-    print (income, file=sys.stderr)
     if income < 250000:
         total += 3*(1-realIncome/250000)
     else:
         total += 0
     total += collegeScore
     return total
+
+def loan_distribution(coa, efc, rfc, dependency):
+    finAid = coa - efc
+    loans = efc - rfc
+    combo = {"Financial Aid": finAid}
+    if loans <= 5500:
+        combo.update({"Stafford Subsidized Loan": loans, "Direct Payment": rfc})
+    elif loans <= 17500:
+        combo.update({"Stafford Subsidized Loan": 5500, "Stafford Unsubsidized Loan": loans-5500, "Direct Payment": rfc})
+    elif dependency=="Dependent":
+        combo.update({"Stafford Subsidized Loan": 5500, "Stafford Unsubsidized Loan": 12000, "Parent PLUS Loans": loans-17500, "Direct Payment": rfc})
+    else:
+        combo.update({"Stafford Subsidized Loan": 5500, "Stafford Unsubsidized Loan": 12000, "Direct Loans": loans-17500, "Direct Payment": rfc})
+    return combo
+
 
 @app.route('/')
 @app.route('/index')
@@ -80,13 +93,16 @@ def calc():
         income=request.form['income']
         race=request.form['race']
         gender=request.form['gender']
-        cost=request.form['cost']
-        expected=request.form['expected']
-        actual=request.form['actual']
+        cost=int(request.form['cost'])
+        expected=int(request.form['expected'])
+        actual=int(request.form['actual'])
         dependency=request.form['dependency']
-
+    dist = {}
     if form.validate_on_submit():
         output = college_score(institution)
-        pScore = personal_score(output, career, income, race, gender)
-        flash('Your Institutional, Personal Score: {}, {}'.format(output, pScore))
-    return render_template('calc.html', form=form)
+        pScore = personal_score(output, career, income, race, gender, expected)
+        dist = loan_distribution(cost, expected, actual, dependency)
+        print(dist,file=sys.stderr)
+        flash('Your Institutional, Personal Score: {}, {}'.format(output, pScore),
+                str(dist['Financial Aid']))
+    return render_template('calc.html', form=form, dist=dist)

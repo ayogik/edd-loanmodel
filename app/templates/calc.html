@@ -57,6 +57,7 @@
         <div class="form-group">
           <label for="career">Prospective Career</label>
           <input type="text" class="form-control" id="career" name="career" placeholder="Likely Career Path">
+          <small class="form-text text-muted">To view the range of prospective occupations, visit https://www.bls.gov/oes/current/oes_nat.htm.</small>
           {% for error in form.career.errors %}
             <span style="color: red;">[{{ error }}]</span>
           {% endfor %}
@@ -113,6 +114,7 @@
             <option>Dependent</option>
             <option>Independent</option>
           </select>
+          <small class="form-text text-muted">If you don't know your dependency status, check out https://studentaid.ed.gov/sa/fafsa/filling-out/dependency#dependency-questions.</small>
         </div>
         <br>
         <button type="submit" class="btn btn-success">Submit</button>
@@ -162,6 +164,14 @@
         {% endfor %}
       {% endif %}
       {% endwith %}
+
+
+      {% for key, value in dist.items() %}
+        <div class="row">
+          <dt class="col-6 text-right">{{ key }}</dt>
+          <dd class="col-6">{{ value }}</dd>
+        </div>
+      {% endfor %}
 
       <hr>
     </main><!-- /.container -->
