@@ -1,13 +1,10 @@
-def salary_proj(start, avg):
+def salary_proj(avg):
     r = 0.004
-    multiplier = 1.1
+    multiplier = 1.1 
+    start = 0.7*avg
     s_max = multiplier * float(avg)
     out = []
     for t in range(0, 31):
         denom = 1.00 + (s_max / (float(start) - 1))**(-r*s_max*t)
         out.append(s_max/denom)
     return out
-    
-st = raw_input("Start Sal: ")
-av = raw_input("Avg Sal: ")
-print salary_proj(st, av)
