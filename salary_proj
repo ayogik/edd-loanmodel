@@ -7,4 +7,27 @@ def salary_proj(avg):
     for t in range(0, 31):
         denom = 1.00 + (s_max / (float(start) - 1))**(-r*s_max*t)
         out.append(s_max/denom)
-    return out
+    
+    foravg = 0.0
+    for i in range(4,14):
+        foravg.append(out[i+1]-out[i])
+    foravg/=10
+    
+    return [out, foravg]
+
+
+mort_rates = [5.367, 4.821, 4.391, 4.177, 4.000, 3.778]
+rate_range = [4.07, 13.25] #fixed rate
+
+def pred_interest(creditscore):
+    if creditscore >= 620 and creditscore < 780:
+        new = int((creditscore - 620)/20)
+        multiplier = (mort_rates[new] - mort_rates[-1])/(mort_rates[0] - mort_rates[-1])
+        rate = multiplier*(rate_range[1] - rate_range[0]) + rate_range[0]
+    elif creditscore >= 780:
+        rate = rate_range[0]
+    else:
+        rate = rate_range[1]
+        
+    return rate
+    
